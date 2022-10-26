@@ -5,11 +5,11 @@ Daniel Schuchardt
 This web service project is built using the Spring Boot Java Framework
 
 Assumptions made for this exercise:
-1) Requests to the addTransaction route with future-dated timestamps will be denied. Timestamp uses Java Instant time class, so time is universal.
+1) Requests to the addTransaction route with future-dated timestamps will be denied. Timestamp uses Java Instant time class, so time is universal
 2) Requests to the spend route with a negative point value will be denied
 3) Requests to the addTransaction route with a negative point total for a payer where the points available for that payer is less than the negative point total in the request will be denied
 4) Unsuccessful requests will not be stored in the transaction repository
-5) This web service is for transactions for one user, the assumption being authentication is handled elsewhere
+5) This web service is for transactions for one user. It is assumed that authentication is handled elsewhere
 
 
 Required software to run this project (Windows or Mac):
@@ -24,7 +24,7 @@ Instructions to run this web service project via the command line in Windows:
 2) Type cmd and hit enter
 3) Navigate to the project folder
 4) Run using command : mvnw clean spring-boot:run
-5) Test the api in Postman by sending request and checking the responses
+5) Test the api in Postman by sending requests and checking the responses
 
 Instructions to run this web service project via the command line on Mac:
 
