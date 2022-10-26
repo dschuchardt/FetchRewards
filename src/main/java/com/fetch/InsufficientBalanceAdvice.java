@@ -12,7 +12,7 @@ public class InsufficientBalanceAdvice {
 	@ResponseBody
 	@ExceptionHandler(InsufficientBalanceException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	String employeeNotFoundHandler(InsufficientBalanceException ex) {
+	String insufficientBalanceHandler(InsufficientBalanceException ex) {
 		return ex.getMessage();
 	}
 }

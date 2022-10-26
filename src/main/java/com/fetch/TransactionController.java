@@ -4,19 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TransactionController {
-
+	
+	Logger logger = LoggerFactory.getLogger(TransactionController.class);
+	
+	static final int ZERO = 0;
 	private final UserTransactionRepository repository;
 
 	TransactionController(UserTransactionRepository repository) {
@@ -26,7 +29,7 @@ public class TransactionController {
 
 	// Aggregate root
 	// tag::get-aggregate-root[]
-	@GetMapping("/transactions")
+	@GetMapping("/all")
 	List<Transaction> allTransactions() {
 		return repository.findAll();
 	}
@@ -36,9 +39,9 @@ public class TransactionController {
 	// Returns balances sorted by payer
 	@GetMapping("/balances")
 	HashMap<String,Integer> getPointsBalanceSortedByPayer() {
-		List<Transaction> allnewTransaction = this.allTransactions();
+		List<Transaction> allTransactions = this.allTransactions();
 		HashMap<String,Integer> balancesByPayer = new HashMap<String,Integer>();
-		for(Transaction temp : allnewTransaction) {
+		for(Transaction temp : allTransactions) {
 			String payer = temp.getPayer();
 			int points = temp.getPoints();
 			if(balancesByPayer.get(payer) != null){
@@ -63,47 +66,56 @@ public class TransactionController {
     	If attempting to spend more points than are available, transaction does not get added to repository
     	If attempting to "spend" negative points (aka add points to balance), transaction does not get added to repository 
      */
-	@PostMapping("/Spend/{totalPointsToSpend}")
-	HashMap<String,Integer> spendPoints(@RequestBody int totalPointsToSpend){
+	@PostMapping("/spend/{pointsToSpend}")
+	ArrayList<Pair> spendPoints(@PathVariable int pointsToSpend){
 		//Create resultSet
-		HashMap<String,Integer> spendPointsByPayer = new HashMap<String,Integer>();
+		ArrayList<Pair> spendPointsByPayer = new ArrayList<Pair>();
 		
 		//create counter for keeping track of points left to spend for this spend transaction
-		int pointsLeftToSpend = totalPointsToSpend;
+		int pointsLeftToSpend = pointsToSpend;
 		
 		//check if we are spending points and that the user has enough points to spend
-		if(totalPointsToSpend > 0 && totalPointsToSpend <= getPointsBalance()) {
-			
+		if(pointsToSpend > 0 && pointsToSpend <= getPointsBalance()) {
 			while(pointsLeftToSpend > 0){
 				
+				
 				//gets oldest transaction with points available from repository
-				Transaction deductionTransaction = repository.findFirstTransactionOrderByTimestamp();
+				Transaction deductionTransaction = repository.findTopByPointsAvailableToSpendGreaterThanOrderByTimestampAsc(ZERO);
 				
 				//gets the total amount of points available for
 				int pointsAvailable = deductionTransaction.getPointsAvailableToSpend();
 				if(pointsLeftToSpend >= pointsAvailable) {
 					pointsLeftToSpend = pointsLeftToSpend - pointsAvailable;
-					spendPointsByPayer.put(deductionTransaction.getPayer(),pointsAvailable);
+					Pair result = new Pair(deductionTransaction.getPayer(),-1 * pointsAvailable);
+					spendPointsByPayer.add(result);
+					logger.info("spendPointsByPayer " + spendPointsByPayer + " pointsLeftToSpend " + pointsLeftToSpend + " pointsAvailable "+ pointsAvailable);
 					pointsAvailable = 0;
 					deductionTransaction.setPointsAvailableToSpend(pointsAvailable);
+					repository.save(deductionTransaction);
 				} else if (pointsLeftToSpend < pointsAvailable) {
-					pointsAvailable = pointsAvailable - pointsLeftToSpend; 
-					spendPointsByPayer.put(deductionTransaction.getPayer(),pointsLeftToSpend);
+					pointsAvailable = pointsAvailable - pointsLeftToSpend;
+					Pair result = new Pair(deductionTransaction.getPayer(),-1* pointsLeftToSpend);
+					spendPointsByPayer.add(result);
 					pointsLeftToSpend = 0;
 					deductionTransaction.setPointsAvailableToSpend(pointsAvailable);
-				} else {
-					throw new RuntimeException("Error spending points");
-				}
+					repository.save(deductionTransaction);
+				} else throw new RuntimeException("Error spending points");
+				
 				
 			}
-			for(String i : spendPointsByPayer.keySet()) {
+			for (int i = 0; i < spendPointsByPayer.size(); i++) {
+				//get the first payer/points pair
+				String payer = spendPointsByPayer.get(i).getPayer();
+				int points = spendPointsByPayer.get(i).getPoints();
+				
+				//get current timestamp
 				Instant instant = Instant.now();
-				Transaction newTransaction = new Transaction(i,spendPointsByPayer.get(i), instant);
+				Transaction newTransaction = new Transaction(payer, points, instant);
 				addTransactionToRepository(newTransaction);
 			}
-		} else if(totalPointsToSpend >= 0){
+		} else if(pointsToSpend <= 0){
 			throw new NotSpendException();
-		} else if(totalPointsToSpend > getPointsBalance()){
+		} else if(pointsToSpend > getPointsBalance()){
 			throw new InsufficientBalanceException();
 		} else {
 			throw new RuntimeException();
@@ -113,13 +125,16 @@ public class TransactionController {
 	
 	//Add Points
 	@PostMapping("/addTransaction")
-	public ResponseEntity<Transaction> addTransaction(@PathVariable int id, @RequestBody Transaction newTransaction){
-
+	public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction newTransaction){
+		
         //Get all the newTransaction details
-        newTransaction.setTimestamp(Instant.now());
+        //newTransaction.setTimestamp(Instant.now());
         String payer = newTransaction.getPayer();
         int points = newTransaction.getPoints();
-
+        newTransaction.setPointsAvailableToSpend(points);
+        
+        if(points< 0) newTransaction.setPointsAvailableToSpend(ZERO);
+        if(newTransaction.getTimestamp().compareTo(Instant.now()) > 0) throw new InvalidDateException(); 
         
         //if points are positive add to transactionRepository
         if(points>0) addTransactionToRepository(newTransaction);
@@ -136,9 +151,9 @@ public class TransactionController {
     		if(points > 0 && points <= getPointsBalance()) {
     			
     			while(pointsLeftToSpend > 0){
-    				
+    			
     				//gets oldest transaction with points available from repository
-    				Transaction deductionTransaction = repository.findFirstTransactionByPayerOrderByTimestamp(payer);
+    				Transaction deductionTransaction = repository.findTopByPointsAvailableToSpendGreaterThanAndPayerOrderByTimestampAsc(ZERO, payer);
     				
     				//gets the total amount of points available for
     				int pointsAvailable = deductionTransaction.getPointsAvailableToSpend();
@@ -146,20 +161,20 @@ public class TransactionController {
     					pointsLeftToSpend = pointsLeftToSpend - pointsAvailable;
     					pointsAvailable = 0;
     					deductionTransaction.setPointsAvailableToSpend(pointsAvailable);
+    					repository.save(deductionTransaction);
     				} else if (pointsLeftToSpend < pointsAvailable) {
     					pointsAvailable = pointsAvailable - pointsLeftToSpend; 
     					pointsLeftToSpend = 0;
     					deductionTransaction.setPointsAvailableToSpend(pointsAvailable);
+    					repository.save(deductionTransaction);
     				} else {
     					throw new RuntimeException("Error spending points");
     				}
     				
     			}
-    			
+    			logger.info("newTransaction: " + newTransaction);
     			addTransactionToRepository(newTransaction);
     			
-    		} else if(points >= 0){
-    			throw new NotSpendException();
     		} else if(points > getPointsBalance()){
     			throw new InsufficientBalanceException();
     		} else {
