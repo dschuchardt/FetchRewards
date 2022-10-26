@@ -1,5 +1,5 @@
 # FetchRewards
-Fetch Rewards Coding Exercise - Sr Backend Software Engineering
+Fetch Rewards Coding Exercise - Sr Backend Software Engineering - 
 Daniel Schuchardt
 
 This web service project is built using the SpringBoot Java Framework.
