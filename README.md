@@ -15,15 +15,15 @@ Assumptions made for this exercise:
 Required software to run this project (Windows or Mac):
 1) Download this repository to your machine and take note of the file location
 2) Install Java JDK 17 for Windows, select: https://download.oracle.com/java/17/archive/jdk-17.0.5_windows-x64_bin.exe
-    -Note the installation location, by default the location is: C:\Program Files\Java\jdk-17.0.5
-    -Add this location to your environment variables for your user account by:
-        -click start, go to settings
-        -search for system environment variables
-        -in the window that pops up, select the button "Environment Variables"
-        -system variables are located in the bottom pane of the pop up window
-        -click new
-        -under Variable name, type JAVA_HOME
-        -under Value name, type C:\Program Files\Java\jdk-17.0.5
+    - Note the installation location, by default the location is: C:\Program Files\Java\jdk-17.0.5
+    - Add this location to your environment variables for your user account by:
+        1) click start, go to settings
+        2) search for system environment variables
+        3) in the window that pops up, select the button "Environment Variables"
+        4) system variables are located in the bottom pane of the pop up window
+        5) click new
+        6) under Variable name, type JAVA_HOME
+        7) under Value name, type C:\Program Files\Java\jdk-17.0.5
 4) Install Eclipse or any Spring Boot compatible IDE - https://www.eclipse.org/downloads/
 5) Install Postman to test the API - https://www.postman.com/downloads/
 
