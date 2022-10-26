@@ -18,7 +18,7 @@ Required software to run this project (Windows or Mac):
     - Note the installation location, by default the location is: C:\Program Files\Java\jdk-17.0.5
     - Add this location to your environment variables for your user account by:
         1) click start, go to settings
-        2) search for system environment variables
+        2) search for environment variables, select "Edit the System Environment Variables"
         3) in the window that pops up, select the button "Environment Variables"
         4) system variables are located in the bottom pane of the pop up window
         5) click new
