@@ -11,9 +11,12 @@ Required software:
 4) InstallPostman to test the API - https://www.postman.com/downloads/
 
 
-Run the Project using cmd
+Run the Project using cmd.
+
 Navigate to the project folder.
+
 Run using command : mvnw clean spring-boot:run
+
 Test the api in Postman by sending request and checking the responses.
 
 
