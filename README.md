@@ -14,10 +14,7 @@ Assumptions made for this exercise:
 
 Required software to run this project (Windows or Mac):
 1) Download this repository to your machine and take note of the file location
-2) Install Java JDK 17 - https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
-    - For Windows, select: https://download.oracle.com/java/17/archive/jdk-17.0.5_windows-x64_bin.exe
-    - For Mac x64, select: https://download.oracle.com/java/17/archive/jdk-17.0.5_macos-x64_bin.dmg
-    - For Mac Arm 64, select: https://download.oracle.com/java/17/archive/jdk-17.0.5_macos-aarch64_bin.dmg
+2) Install Java JDK 17 for Windows, select: https://download.oracle.com/java/17/archive/jdk-17.0.5_windows-x64_bin.exe
 3) Install Eclipse or any Spring Boot compatible IDE - https://www.eclipse.org/downloads/
 4) Install Postman to test the API - https://www.postman.com/downloads/
 
