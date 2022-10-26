@@ -24,7 +24,7 @@ Instructions to run this web service project via the command line in Windows:
 2) Type cmd and hit enter
 3) Navigate to the project folder
 4) Run using command : mvnw clean spring-boot:run
-5) Test the api in Postman by sending requests and checking the responses
+5) Test the web service in Postman by sending requests and checking the responses
 
 Instructions to run this web service project via the command line on Mac:
 
