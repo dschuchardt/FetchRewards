@@ -15,6 +15,7 @@ Assumptions made for this exercise:
 Required software to run this project (Windows or Mac):
 1) Download this repository to your machine and take note of the file location
 2) Install Java JDK 17 for Windows, select: https://download.oracle.com/java/17/archive/jdk-17.0.5_windows-x64_bin.exe
+    - Click the downloaded file to run the installer
     - Note the installation location, by default the location is: C:\Program Files\Java\jdk-17.0.5
     - Add this location to your environment variables for your user account by:
         1) click start, go to settings
@@ -26,7 +27,10 @@ Required software to run this project (Windows or Mac):
         7) under Variable value, type C:\Program Files\Java\jdk-17.0.5
         8) click ok to close the window
 4) Install Eclipse or any Spring Boot compatible IDE - https://www.eclipse.org/downloads/
-5) Install Postman to test the API - https://www.postman.com/downloads/
+5) Install Postman for testing the web service- https://www.postman.com/downloads/
+    - click the Windows 64-bit button to download
+    - click the file to run the installer. Once the installation is complete, Postman should launch automatically
+    - click "Skip and go to the app" near the bottom of left side of the window
 
 
 Instructions to run this web service project via the command line in Windows:
