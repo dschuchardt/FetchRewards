@@ -24,6 +24,7 @@ Required software to run this project (Windows or Mac):
         5) click new
         6) under Variable name, type JAVA_HOME
         7) under Variable value, type C:\Program Files\Java\jdk-17.0.5
+        8) click ok to close the window
 4) Install Eclipse or any Spring Boot compatible IDE - https://www.eclipse.org/downloads/
 5) Install Postman to test the API - https://www.postman.com/downloads/
 
