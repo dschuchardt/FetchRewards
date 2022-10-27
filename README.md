@@ -26,8 +26,7 @@ Required software to run this project (Windows or Mac):
         6) under Variable name, type JAVA_HOME
         7) under Variable value, type C:\Program Files\Java\jdk-17.0.5
         8) click ok to close the window
-4) Install Eclipse or any Spring Boot compatible IDE - https://www.eclipse.org/downloads/
-5) Install Postman for testing the web service- https://www.postman.com/downloads/
+3) Install Postman for testing the web service- https://www.postman.com/downloads/
     - click the Windows 64-bit button to download
     - click the file to run the installer. Once the installation is complete, Postman should launch automatically
     - click "Skip and go to the app" near the bottom of left side of the window
