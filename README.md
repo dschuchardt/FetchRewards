@@ -31,6 +31,8 @@ Required software to run this project (Windows or Mac):
     - click the Windows 64-bit button to download
     - click the file to run the installer. Once the installation is complete, Postman should launch automatically
     - click "Skip and go to the app" near the bottom of left side of the window
+    - Download "FetchRewards.postman_collection.json" from https://github.com/dschuchardt/FetchRewardsPostmanCollection
+    - drag downloaded file into Postman
 
 
 Instructions to run this web service project via the command line in Windows:
