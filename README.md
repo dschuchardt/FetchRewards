@@ -49,7 +49,7 @@ Instructions to start this web service project via the command line in Windows:
 
 To test the web service in Postman:
 - Click the request that you wish to test
-    - For the "GET" requests, you can simply click "Send", there is nothing that needs updating
+    - For the "GET" requests, such as allTransactions or balances, you can simply click "Send", there is nothing that needs updating
     - For the "POST" addTransaction route, you must update the request body with a transaction payload
         -   Here are some sample request body payloads (do not include the bullet points)
             - {"payer":"DANNON","points":300,"timestamp":"2020-10-31T10:00:00Z"}
@@ -64,4 +64,4 @@ To test the web service in Postman:
             - localhost:8080/spend/10000
 
 Opportunities for improvement
-1) Reuse code around the spend method for adding negative points in the addTransactions route
+- Reuse code around the spend method for adding negative points in the addTransactions route
