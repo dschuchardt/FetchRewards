@@ -12,8 +12,9 @@ Assumptions made for this exercise:
 5) This web service is for transactions for one user. It is assumed that authentication is handled elsewhere
 
 
-Required software to run this project (Windows or Mac):
+Required software to run this project (Windows):
 1) Download this repository to your machine and take note of the file location
+    - click the green "Code" dropdown button and select "Download Zip"
 2) Install Java JDK 17 for Windows, select: https://download.oracle.com/java/17/archive/jdk-17.0.5_windows-x64_bin.exe
     - Click the downloaded file to run the installer
     - Note the installation location, by default the location is: C:\Program Files\Java\jdk-17.0.5
@@ -30,8 +31,11 @@ Required software to run this project (Windows or Mac):
     - click the Windows 64-bit button to download
     - click the file to run the installer. Once the installation is complete, Postman should launch automatically
     - click "Skip and go to the app" near the bottom of left side of the window
-    - Download "FetchRewards.postman_collection.json" from https://github.com/dschuchardt/FetchRewardsPostmanCollection
-    - drag downloaded file into Postman
+    - Download "FetchRewardsPostmanCollection" from https://github.com/dschuchardt/FetchRewardsPostmanCollection
+        - click the green "Code" dropdown button and select "Download Zip"
+        - it will download as a zip, extract the files from the zip
+        - click the import button in Postman
+        - select the "FetchRewards.postman_collection.json" file
 
 
 Instructions to run this web service project via the command line in Windows:
